@@ -17,7 +17,7 @@
         <script>
             const data = {
                 datasets: [
-                    ...{{ json_encode($area) }}.map((areaData, index) => ({
+                    ...{!! json_encode($area) !!}.map((areaData, index) => ({
                         label: 'A' + (index + 1),
                         data: areaData,
                         borderColor: 'rgb(190, 66, 69)',
@@ -34,12 +34,12 @@
                         fill: true,
                     })),
                     {
-                        data: {{ json_encode($all) }},
+                        data: {!! json_encode($all) !!},
                         label: "none",
                         backgroundColor: 'rgba(201, 203, 207, 0.4)',
                         fill: true,
                     },
-                    ...{{ json_encode($rules) }}.map((rule, index) => ({
+                    ...{!! json_encode($rules) !!}.map((rule, index) => ({
                         label: "none",
                         data: rule,
                         borderColor: 'rgb(75, 192, 192)',
