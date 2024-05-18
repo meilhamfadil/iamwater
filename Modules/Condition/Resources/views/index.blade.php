@@ -33,12 +33,12 @@
                         ],
                         fill: true,
                     })),
-                    {
-                        data: {!! json_encode($all) !!},
-                        label: "none",
-                        backgroundColor: 'rgba(201, 203, 207, 0.4)',
-                        fill: true,
-                    },
+                    // {
+                    //     data: {!! json_encode($all) !!},
+                    //     label: "none",
+                    //     backgroundColor: 'rgba(201, 203, 207, 0.4)',
+                    //     fill: true,
+                    // },
                     ...{!! json_encode($rules) !!}.map((rule, index) => ({
                         label: "none",
                         data: rule,
