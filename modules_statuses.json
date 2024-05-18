@@ -1,0 +1,8 @@
+{
+    "Landing": true,
+    "Auth": true,
+    "Dashboard": true,
+    "Master": true,
+    "System": true,
+    "Condition": true
+}

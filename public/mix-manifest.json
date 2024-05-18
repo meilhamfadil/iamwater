@@ -1,0 +1,9 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/js/plugin.js": "/js/plugin.js",
+    "/css/plugin.css": "/css/plugin.css",
+    "/css/adminlte.css.map": "/css/adminlte.css.map",
+    "/js/bootstrap-colorpicker.js.map": "/js/bootstrap-colorpicker.js.map",
+    "/js/toastr.js.map": "/js/toastr.js.map"
+}

@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1,
+        "name": "Superadmin",
+        "slug": "Superadmin",
+        "description": "Mendapatkan akses ke seluruh sistem",
+        "permissions": null
+    },
+    {
+        "id": 2,
+        "name": "Admin",
+        "slug": "Admin",
+        "description": "Mendapatkan akses ke seluruh fitur",
+        "permissions": "dashboard"
+    }
+]

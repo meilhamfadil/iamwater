@@ -1,0 +1,122 @@
+[
+    {
+        "id": 1,
+        "parent": 0,
+        "role_ids": ",2,",
+        "name": "Main Menu",
+        "type": "label",
+        "icon": null,
+        "link": null,
+        "order": 1,
+        "manageable": 1,
+        "target": "_self"
+    },
+    {
+        "id": 2,
+        "parent": 0,
+        "role_ids": ",2,",
+        "name": "Sistem",
+        "type": "label",
+        "icon": null,
+        "link": null,
+        "order": 2,
+        "manageable": 0,
+        "target": "_self"
+    },
+    {
+        "id": 3,
+        "parent": 1,
+        "role_ids": ",2,",
+        "name": "Dashboard",
+        "type": "menu",
+        "icon": "fas fa-tachometer-alt",
+        "link": "dashboard",
+        "order": 1,
+        "manageable": 1,
+        "target": "_self"
+    },
+    {
+        "id": 4,
+        "parent": 2,
+        "role_ids": ",2,",
+        "name": "Fitur & Menu",
+        "type": "menu",
+        "icon": "fas fa-cubes",
+        "link": null,
+        "order": 1,
+        "manageable": 0,
+        "target": "_self"
+    },
+    {
+        "id": 5,
+        "parent": 4,
+        "role_ids": null,
+        "name": "Fitur Mapper",
+        "type": "menu",
+        "icon": null,
+        "link": "system-feature",
+        "order": 1,
+        "manageable": 0,
+        "target": "_self"
+    },
+    {
+        "id": 6,
+        "parent": 4,
+        "role_ids": ",2,",
+        "name": "Menu",
+        "type": "menu",
+        "icon": null,
+        "link": "system-menu",
+        "order": 2,
+        "manageable": 0,
+        "target": "_self"
+    },
+    {
+        "id": 7,
+        "parent": 4,
+        "role_ids": ",2,",
+        "name": "Menu Mapper",
+        "type": "menu",
+        "icon": null,
+        "link": "system-menu-mapper",
+        "order": 3,
+        "manageable": 0,
+        "target": "_self"
+    },
+    {
+        "id": 8,
+        "parent": 2,
+        "role_ids": ",2,",
+        "name": "Pengguna",
+        "type": "menu",
+        "icon": "fas fa-users",
+        "link": null,
+        "order": 2,
+        "manageable": 0,
+        "target": "_self"
+    },
+    {
+        "id": 9,
+        "parent": 8,
+        "role_ids": ",2,",
+        "name": "Pengguna",
+        "type": "menu",
+        "icon": null,
+        "link": "system-user",
+        "order": 1,
+        "manageable": 0,
+        "target": "_self"
+    },
+    {
+        "id": 10,
+        "parent": 8,
+        "role_ids": ",2,",
+        "name": "Hak Akses",
+        "type": "menu",
+        "icon": null,
+        "link": "system-role",
+        "order": 2,
+        "manageable": 0,
+        "target": "_self"
+    }
+]
