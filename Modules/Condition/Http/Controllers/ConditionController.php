@@ -50,9 +50,10 @@ class ConditionController extends AdminController
         return DB::table('sources')->get();
     }
 
-    public function histories()
+    public function histories(Request $request)
     {
-        return DB::table('condition')->get();
+        $refId = $request->query('ref_id');
+        return DB::table('condition')->where("source_id", $refId)->get();
     }
 
     public function detail(Request $request)
