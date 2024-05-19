@@ -68,7 +68,9 @@ class ConditionController extends AdminController
 
     public function nodes()
     {
-        return DB::table('sources')->get();
+        return DB::table('sources')
+            ->orderByDesc('created_at')
+            ->get();
     }
 
     public function histories(Request $request)
@@ -77,6 +79,7 @@ class ConditionController extends AdminController
         return DB::table('condition')
             ->leftJoin("condition_process", 'condition.ref_id', 'condition_process.condition_id')
             ->where("source_id", $refId)
+            ->orderByDesc('created_at')
             ->get(['condition.*', 'condition_process.output']);
     }
 
