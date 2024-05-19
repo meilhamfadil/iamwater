@@ -84,8 +84,8 @@ class ConditionController extends AdminController
         return DB::table('condition')
             ->leftJoin("condition_process", 'condition.ref_id', 'con`dition_process.condition_id')
             ->where("source_id", $refId)
-            ->whereRaw("DATE(created_at) = '$date'")
-            ->orderByDesc('created_at')
+            ->whereRaw("DATE(condition.created_at) = '$date'")
+            ->orderByDesc('condition.created_at')
             ->get(['condition.*', 'condition_process.output']);
     }
 
