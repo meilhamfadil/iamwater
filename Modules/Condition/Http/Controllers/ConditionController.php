@@ -4,6 +4,7 @@ namespace Modules\Condition\Http\Controllers;
 
 use App\Http\Controllers\AdminController;
 use Exception;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
@@ -426,7 +427,7 @@ class ConditionController extends AdminController
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]);
         } else {
-            $result = DB::table('condition')->insert([
+            $result = DB::table('condition')->insertGetId([
                 'source_id' => $request->post('source_id'),
                 'ph' => $request->post('ph'),
                 'metals' => $request->post('metals'),
@@ -434,6 +435,9 @@ class ConditionController extends AdminController
                 'particles' => $request->post('particles'),
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
+
+            $client = new Client();
+            $client->request('GET', 'http://akuasih.my.id/condition/api/calculate?ref_id=' . $result);
         }
 
         return $this->responseJson($result);
