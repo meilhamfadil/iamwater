@@ -234,7 +234,7 @@
         }
 
         function prepareEdit(data) {
-            $('input[name=id]').val(data.id);
+            $('input[name=id]').val(data.ref_id);
             $('select[name=source_id]').val(data.source_id);
             $('input[name=ph]').val(data.ph);
             $('input[name=metals]').val(data.metals);
