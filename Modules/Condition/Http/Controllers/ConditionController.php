@@ -409,7 +409,7 @@ class ConditionController extends AdminController
 
         $result = null;
         if ($request->post('id') != null) {
-            $result = DB::table('condition')->where('id', $request->post('id'))
+            $result = DB::table('condition')->where('ref_id', $request->post('id'))
                 ->update([
                     'source_id' => $request->post('source_id'),
                     'ph' => $request->post('ph'),
