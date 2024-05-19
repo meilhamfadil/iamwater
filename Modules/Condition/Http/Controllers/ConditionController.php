@@ -60,6 +60,7 @@ class ConditionController extends AdminController
             },
             DB::table('condition')
                 ->whereRaw("DATE(created_at) = '$date'")
+                ->orderByDesc('created_at')
                 ->get()
                 ->toArray()
         );
