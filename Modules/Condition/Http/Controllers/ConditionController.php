@@ -49,6 +49,7 @@ class ConditionController extends AdminController
     {
         $types = $request->query('types');
         $date = $request->query('date');
+        $node = $request->query('node');
 
         $this->content['type'] = $types;
         $this->content['graph'] = array_map(
@@ -59,6 +60,7 @@ class ConditionController extends AdminController
                 ];
             },
             DB::table('condition')
+                ->where("source_id", $node)
                 ->whereRaw("DATE(created_at) = '$date'")
                 ->orderByDesc('created_at')
                 ->get()
