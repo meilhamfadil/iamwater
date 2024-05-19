@@ -80,9 +80,11 @@ class ConditionController extends AdminController
     public function histories(Request $request)
     {
         $refId = $request->query('ref_id');
+        $date = $request->query('date');
         return DB::table('condition')
-            ->leftJoin("condition_process", 'condition.ref_id', 'condition_process.condition_id')
+            ->leftJoin("condition_process", 'condition.ref_id', 'con`dition_process.condition_id')
             ->where("source_id", $refId)
+            ->whereRaw("DATE(created_at) = '$date'")
             ->orderByDesc('created_at')
             ->get(['condition.*', 'condition_process.output']);
     }
