@@ -209,7 +209,7 @@ class ConditionController extends AdminController
                 "category_sangat_baik" => $sangatBaik,
                 "area" => $totalArea,
                 "momen" => $totalMomen,
-                "output" => $totalMomen / $totalArea,
+                "output" => ($totalArea == 0) ? 0 : $totalMomen / $totalArea,
             ]);
 
 
