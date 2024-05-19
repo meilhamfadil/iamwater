@@ -74,7 +74,10 @@ class ConditionController extends AdminController
     public function histories(Request $request)
     {
         $refId = $request->query('ref_id');
-        return DB::table('condition')->where("source_id", $refId)->get();
+        return DB::table('condition')
+            ->leftJoin("condition_process", 'condition.ref_id', 'condition_process.condition_id')
+            ->where("source_id", $refId)
+            ->get(['condition.*', 'condition_process.output']);
     }
 
     public function detail(Request $request)
