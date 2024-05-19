@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('condition')->group(function () {
     Route::get('/', 'ConditionController@index');
+    Route::get('/graph', 'ConditionController@graph');
 
 
     Route::prefix('/api')->group(function () {

@@ -45,6 +45,27 @@ class ConditionController extends AdminController
         return view('condition::index', $this->content);
     }
 
+    public function graph(Request $request)
+    {
+        $types = $request->query('types');
+        $date = $request->query('date');
+
+        $this->content['type'] = $types;
+        $this->content['graph'] = array_map(
+            function ($data) use ($types) {
+                return [
+                    "x" => $data->created_at,
+                    "y" => $data->$types,
+                ];
+            },
+            DB::table('condition')
+                ->whereRaw("DATE(created_at) = '$date'")
+                ->get()
+                ->toArray()
+        );
+        return view('condition::graph', $this->content);
+    }
+
     public function nodes()
     {
         return DB::table('sources')->get();
@@ -356,12 +377,13 @@ class ConditionController extends AdminController
 
     public function h_crud()
     {
+        $this->content['nodes'] = $this->nodes();
         return view('condition::hcrud', $this->content);
     }
 
     public function h_datatable()
     {
-        $query = DB::table('condition');
+        $query = DB::table('condition')->join("sources", "condition.source_id", "=", "sources.id");
         return DataTables::of($query)->toJson();
     }
 
@@ -378,7 +400,7 @@ class ConditionController extends AdminController
         if ($request->post('id') != null) {
             $result = DB::table('condition')->where('id', $request->post('id'))
                 ->update([
-                    'source_id' => 1,
+                    'source_id' => $request->post('source_id'),
                     'ph' => $request->post('ph'),
                     'metals' => $request->post('metals'),
                     'oxygen' => $request->post('oxygen'),
@@ -386,7 +408,7 @@ class ConditionController extends AdminController
                 ]);
         } else {
             $result = DB::table('condition')->insert([
-                'source_id' => 1,
+                'source_id' => $request->post('source_id'),
                 'ph' => $request->post('ph'),
                 'metals' => $request->post('metals'),
                 'oxygen' => $request->post('oxygen'),

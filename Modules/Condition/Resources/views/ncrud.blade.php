@@ -39,7 +39,7 @@
                         </div>
                         <div class="form-group">
                             <label>Deskripsi</label>
-                            <textarea name="description" class="form-control"></textarea>
+                            <textarea name="description" class="form-control" placeholder="Deskripsi"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary float-right">Simpan</button>
                     </div>
@@ -48,7 +48,7 @@
 
             <div class="card" id="container-table">
                 <div class="card-header">
-                    <h3 class="card-title">Hak Akses</h3>
+                    <h3 class="card-title">Nodes</h3>
                     @can('isSuperadmin')
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool add">
@@ -208,7 +208,6 @@
         function prepareEdit(data) {
             $('input[name=id]').val(data.id);
             $('input[name=name]').val(data.name);
-            $('input[name=slug]').val(data.slug);
             $('textarea[name=description]').val(data.description);
             swap('#container-table', '#container-form');
         }

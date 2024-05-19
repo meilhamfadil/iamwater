@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Nodes</h1>
+                    <h1>Conditions</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Feature</a></li>
-                        <li class="breadcrumb-item active">Nodes</li>
+                        <li class="breadcrumb-item active">Conditions</li>
                     </ol>
                 </div>
             </div>
@@ -23,7 +23,7 @@
 
             <div class="card" id="container-form" style="display: none">
                 <div class="card-header">
-                    <h3 class="card-title">Form Nodes</h3>
+                    <h3 class="card-title">Form Conditions</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool close-form">
                             <i class="fas fa-times"></i></button>
@@ -33,6 +33,14 @@
                     {{ csrf_field() }}
                     <input type="hidden" name="id">
                     <div class="card-body">
+                        <div class="form-group">
+                            <label>PH</label>
+                            <select name="source_id" class="form-control">
+                                @foreach ($nodes as $n)
+                                    <option value="{{ $n->id }}">{{ $n->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label>PH</label>
                             <input type="text" name="ph" class="form-control" placeholder="Nama Akses">
@@ -56,7 +64,7 @@
 
             <div class="card" id="container-table">
                 <div class="card-header">
-                    <h3 class="card-title">Hak Akses</h3>
+                    <h3 class="card-title">Conditions</h3>
                     @can('isSuperadmin')
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool add">
@@ -69,6 +77,7 @@
                         <thead>
                             <tr>
                                 <td class="text-center">No</td>
+                                <td class="text-center">Source</td>
                                 <td class="text-center">PH</td>
                                 <td class="text-center">Metal</td>
                                 <td class="text-center">Oxygen</td>
@@ -104,6 +113,9 @@
                         render: function(data, index, row, meta) {
                             return `${meta.row + 1}`
                         }
+                    },
+                    {
+                        data: 'name'
                     },
                     {
                         data: 'ph'
@@ -223,9 +235,11 @@
 
         function prepareEdit(data) {
             $('input[name=id]').val(data.id);
-            $('input[name=name]').val(data.name);
-            $('input[name=slug]').val(data.slug);
-            $('textarea[name=description]').val(data.description);
+            $('select[name=source_id]').val(data.source_id);
+            $('input[name=ph]').val(data.ph);
+            $('input[name=metals]').val(data.metals);
+            $('input[name=oxygen]').val(data.oxygen);
+            $('input[name=particles]').val(data.particles);
             swap('#container-table', '#container-form');
         }
 

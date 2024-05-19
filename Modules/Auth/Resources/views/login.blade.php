@@ -3,7 +3,7 @@
 @section('content')
     <div class="login-box">
         <div class="login-logo">
-            <a href="{{ url('') }}"><b>Base</b>Laravel</a>
+            <a href="{{ url('') }}"><b>Akuasih</b></a>
         </div>
 
         <div class="card" id="container-login">
@@ -34,9 +34,9 @@
                     </div>
                 </form>
 
-                <p class="mb-1">
+                {{-- <p class="mb-1">
                     <a href="javascript:;" id="action-forgot">Lupa password</a>
-                </p>
+                </p> --}}
             </div>
         </div>
 
@@ -128,7 +128,7 @@
                     } else {
                         showMessage(payload.message)
                         setTimeout(() => {
-                            redirect('dashboard')
+                            redirect('condition/nodes')
                         }, 500);
                     }
                 },
