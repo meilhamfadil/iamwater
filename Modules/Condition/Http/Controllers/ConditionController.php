@@ -357,11 +357,13 @@ class ConditionController extends AdminController
                 ->update([
                     'name' => $request->post('name'),
                     'description' => $request->post('description'),
+                    'updated_at' => date('Y-m-d H:i:s'),
                 ]);
         } else {
             $result = DB::table('sources')->insert([
                 'name' => $request->post('name'),
                 'description' => $request->post('description'),
+                'created_at' => date('Y-m-d H:i:s')
             ]);
         }
 
@@ -411,6 +413,7 @@ class ConditionController extends AdminController
                     'metals' => $request->post('metals'),
                     'oxygen' => $request->post('oxygen'),
                     'particles' => $request->post('particles'),
+                    'updated_at' => date('Y-m-d H:i:s'),
                 ]);
         } else {
             $result = DB::table('condition')->insert([
@@ -419,6 +422,7 @@ class ConditionController extends AdminController
                 'metals' => $request->post('metals'),
                 'oxygen' => $request->post('oxygen'),
                 'particles' => $request->post('particles'),
+                'created_at' => date('Y-m-d H:i:s'),
             ]);
         }
 
