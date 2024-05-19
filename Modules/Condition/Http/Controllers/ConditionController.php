@@ -3,6 +3,7 @@
 namespace Modules\Condition\Http\Controllers;
 
 use App\Http\Controllers\AdminController;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
@@ -101,131 +102,135 @@ class ConditionController extends AdminController
 
     public function preProcess(Request $request)
     {
-        $refId = $request->query('ref_id');
-        $data = DB::table('condition')->where('ref_id', $refId)->first();
+        try {
+            $refId = $request->query('ref_id');
+            $data = DB::table('condition')->where('ref_id', $refId)->first();
 
-        // Initialization
-        $ph = $data->ph;
-        $metal = $data->metals;
-        $oxygen = $data->oxygen;
-        $tds = $data->particles;
+            // Initialization
+            $ph = $data->ph;
+            $metal = $data->metals;
+            $oxygen = $data->oxygen;
+            $tds = $data->particles;
 
-        // Calculate PH
-        $phAsam = phAsam($ph);
-        $phBaik = phBaik($ph);
-        $phBasa = phBasa($ph);
+            // Calculate PH
+            $phAsam = phAsam($ph);
+            $phBaik = phBaik($ph);
+            $phBasa = phBasa($ph);
 
-        // Calculate Metal
-        $metalBaik = metalBaik($metal);
-        $metalSedang = metalSedang($metal);
-        $metalBuruk = metalBuruk($metal);
+            // Calculate Metal
+            $metalBaik = metalBaik($metal);
+            $metalSedang = metalSedang($metal);
+            $metalBuruk = metalBuruk($metal);
 
-        // Calculate Oxygen
-        $oxygenBaik = oxygenBaik($oxygen);
-        $oxygenCukup = oxygenCukup($oxygen);
-        $oxygenBuruk = oxygenBuruk($oxygen);
+            // Calculate Oxygen
+            $oxygenBaik = oxygenBaik($oxygen);
+            $oxygenCukup = oxygenCukup($oxygen);
+            $oxygenBuruk = oxygenBuruk($oxygen);
 
-        // Calculate TDS
-        $tdsBaik = tdsBaik($tds);
-        $tdsSedang = tdsSedang($tds);
-        $tdsBuruk = tdsBuruk($tds);
+            // Calculate TDS
+            $tdsBaik = tdsBaik($tds);
+            $tdsSedang = tdsSedang($tds);
+            $tdsBuruk = tdsBuruk($tds);
 
-        // Categorize
-        $sangatBuruk = max(
-            min($phAsam, $metalBuruk, $oxygenCukup, $tdsSedang),
-            min($phAsam, $metalBuruk, $oxygenCukup, $tdsBuruk),
-            min($phAsam, $metalBuruk, $oxygenBuruk, $tdsSedang),
-            min($phAsam, $metalBuruk, $oxygenBuruk, $tdsBuruk),
-            min($phBasa, $metalBuruk, $oxygenCukup, $tdsBuruk),
-            min($phBasa, $metalBuruk, $oxygenBuruk, $tdsSedang),
-            min($phBasa, $metalBuruk, $oxygenBuruk, $tdsBuruk),
-        );
-        $buruk = max(
-            min($phAsam, $metalBaik, $oxygenCukup, $tdsBaik),
-            min($phAsam, $metalBaik, $oxygenCukup, $tdsSedang),
-            min($phAsam, $metalBaik, $oxygenBuruk, $tdsSedang),
-            min($phAsam, $metalBaik, $oxygenBuruk, $tdsBuruk),
-            min($phAsam, $metalSedang, $oxygenCukup, $tdsSedang),
-            min($phAsam, $metalSedang, $oxygenCukup, $tdsBuruk),
-            min($phAsam, $metalSedang, $oxygenBuruk, $tdsSedang),
-            min($phAsam, $metalSedang, $oxygenBuruk, $tdsBuruk),
-            min($phBaik, $metalBuruk, $oxygenCukup, $tdsBuruk),
-            min($phBasa, $metalBaik, $oxygenCukup, $tdsSedang),
-            min($phBasa, $metalBaik, $oxygenCukup, $tdsBuruk),
-            min($phBasa, $metalBaik, $oxygenBuruk, $tdsSedang),
-            min($phBasa, $metalBaik, $oxygenBuruk, $tdsBuruk),
-            min($phBasa, $metalSedang, $oxygenCukup, $tdsSedang),
-            min($phBasa, $metalSedang, $oxygenCukup, $tdsBuruk),
-            min($phBasa, $metalSedang, $oxygenBuruk, $tdsSedang),
-            min($phBasa, $metalSedang, $oxygenBuruk, $tdsBuruk),
-            min($phBasa, $metalBuruk, $oxygenCukup, $tdsSedang),
-        );
-        $sedang = max(
-            min($phBaik, $metalBuruk, $oxygenBaik, $tdsBaik),
-            min($phBaik, $metalBuruk, $oxygenBaik, $tdsSedang),
-            min($phBaik, $metalBuruk, $oxygenCukup, $tdsBaik),
-            min($phBaik, $metalBuruk, $oxygenCukup, $tdsSedang),
-        );
-        $baik = max(
-            min($phBaik, $metalBaik, $oxygenCukup, $tdsSedang),
-            min($phBaik, $metalSedang, $oxygenBaik, $tdsSedang),
-            min($phBaik, $metalSedang, $oxygenCukup, $tdsBaik),
-            min($phBaik, $metalSedang, $oxygenCukup, $tdsSedang),
-        );
-        $sangatBaik = max(
-            min($phBaik, $metalBaik, $oxygenBaik, $tdsBaik),
-            min($phBaik, $metalBaik, $oxygenBaik, $tdsSedang),
-            min($phBaik, $metalBaik, $oxygenCukup, $tdsBaik),
-            min($phBaik, $metalSedang, $oxygenBaik, $tdsBaik),
-        );
+            // Categorize
+            $sangatBuruk = max(
+                min($phAsam, $metalBuruk, $oxygenCukup, $tdsSedang),
+                min($phAsam, $metalBuruk, $oxygenCukup, $tdsBuruk),
+                min($phAsam, $metalBuruk, $oxygenBuruk, $tdsSedang),
+                min($phAsam, $metalBuruk, $oxygenBuruk, $tdsBuruk),
+                min($phBasa, $metalBuruk, $oxygenCukup, $tdsBuruk),
+                min($phBasa, $metalBuruk, $oxygenBuruk, $tdsSedang),
+                min($phBasa, $metalBuruk, $oxygenBuruk, $tdsBuruk),
+            );
+            $buruk = max(
+                min($phAsam, $metalBaik, $oxygenCukup, $tdsBaik),
+                min($phAsam, $metalBaik, $oxygenCukup, $tdsSedang),
+                min($phAsam, $metalBaik, $oxygenBuruk, $tdsSedang),
+                min($phAsam, $metalBaik, $oxygenBuruk, $tdsBuruk),
+                min($phAsam, $metalSedang, $oxygenCukup, $tdsSedang),
+                min($phAsam, $metalSedang, $oxygenCukup, $tdsBuruk),
+                min($phAsam, $metalSedang, $oxygenBuruk, $tdsSedang),
+                min($phAsam, $metalSedang, $oxygenBuruk, $tdsBuruk),
+                min($phBaik, $metalBuruk, $oxygenCukup, $tdsBuruk),
+                min($phBasa, $metalBaik, $oxygenCukup, $tdsSedang),
+                min($phBasa, $metalBaik, $oxygenCukup, $tdsBuruk),
+                min($phBasa, $metalBaik, $oxygenBuruk, $tdsSedang),
+                min($phBasa, $metalBaik, $oxygenBuruk, $tdsBuruk),
+                min($phBasa, $metalSedang, $oxygenCukup, $tdsSedang),
+                min($phBasa, $metalSedang, $oxygenCukup, $tdsBuruk),
+                min($phBasa, $metalSedang, $oxygenBuruk, $tdsSedang),
+                min($phBasa, $metalSedang, $oxygenBuruk, $tdsBuruk),
+                min($phBasa, $metalBuruk, $oxygenCukup, $tdsSedang),
+            );
+            $sedang = max(
+                min($phBaik, $metalBuruk, $oxygenBaik, $tdsBaik),
+                min($phBaik, $metalBuruk, $oxygenBaik, $tdsSedang),
+                min($phBaik, $metalBuruk, $oxygenCukup, $tdsBaik),
+                min($phBaik, $metalBuruk, $oxygenCukup, $tdsSedang),
+            );
+            $baik = max(
+                min($phBaik, $metalBaik, $oxygenCukup, $tdsSedang),
+                min($phBaik, $metalSedang, $oxygenBaik, $tdsSedang),
+                min($phBaik, $metalSedang, $oxygenCukup, $tdsBaik),
+                min($phBaik, $metalSedang, $oxygenCukup, $tdsSedang),
+            );
+            $sangatBaik = max(
+                min($phBaik, $metalBaik, $oxygenBaik, $tdsBaik),
+                min($phBaik, $metalBaik, $oxygenBaik, $tdsSedang),
+                min($phBaik, $metalBaik, $oxygenCukup, $tdsBaik),
+                min($phBaik, $metalSedang, $oxygenBaik, $tdsBaik),
+            );
 
-        $all = generateWholeArea($sangatBuruk, $buruk, $sedang, $baik, $sangatBaik);
+            $all = generateWholeArea($sangatBuruk, $buruk, $sedang, $baik, $sangatBaik);
 
-        DB::table('condition_area')->where('condition_id', $refId)->delete();
-        DB::table('condition_process')->where('condition_id', $refId)->delete();
+            DB::table('condition_area')->where('condition_id', $refId)->delete();
+            DB::table('condition_process')->where('condition_id', $refId)->delete();
 
-        [$areas, $totalArea, $totalMomen, $areaData, $momenData] = $this->calculate($all);
+            [$areas, $totalArea, $totalMomen, $areaData, $momenData] = $this->calculate($all);
 
-        DB::table('condition_process')->insert([
-            "condition_id" => $refId,
-            "ph_asam" => $phAsam,
-            "ph_baik" => $phBaik,
-            "ph_basa" => $phBasa,
-            "metal_baik" => $metalBaik,
-            "metal_sedang" => $metalSedang,
-            "metal_buruk" => $metalBuruk,
-            "oxygen_baik" => $oxygenBaik,
-            "oxygen_cukup" => $oxygenCukup,
-            "oxygen_buruk" => $oxygenBuruk,
-            "tds_baik" => $tdsBaik,
-            "tds_sedang" => $tdsSedang,
-            "tds_buruk" => $tdsBuruk,
-            "category_sangat_buruk" => $sangatBuruk,
-            "category_buruk" => $buruk,
-            "category_sedang" => $sedang,
-            "category_baik" => $baik,
-            "category_sangat_baik" => $sangatBaik,
-            "area" => $totalArea,
-            "momen" => $totalMomen,
-            "output" => $totalMomen / $totalArea,
-        ]);
-
-
-        foreach ($areaData as $index => $conArea) {
-            [$left, $right, $upper, $lower] = explode('-', $index);
-            DB::table('condition_area')->insert([
+            DB::table('condition_process')->insert([
                 "condition_id" => $refId,
-                "x_start" => ($left == $right) ? $upper : $lower,
-                "y_start" => $left,
-                "x_end" => ($left == $right) ? $lower : $upper,
-                "y_end" => $right,
-                "area" => $conArea,
-                "momen" => $momenData[$index],
+                "ph_asam" => $phAsam,
+                "ph_baik" => $phBaik,
+                "ph_basa" => $phBasa,
+                "metal_baik" => $metalBaik,
+                "metal_sedang" => $metalSedang,
+                "metal_buruk" => $metalBuruk,
+                "oxygen_baik" => $oxygenBaik,
+                "oxygen_cukup" => $oxygenCukup,
+                "oxygen_buruk" => $oxygenBuruk,
+                "tds_baik" => $tdsBaik,
+                "tds_sedang" => $tdsSedang,
+                "tds_buruk" => $tdsBuruk,
+                "category_sangat_buruk" => $sangatBuruk,
+                "category_buruk" => $buruk,
+                "category_sedang" => $sedang,
+                "category_baik" => $baik,
+                "category_sangat_baik" => $sangatBaik,
+                "area" => $totalArea,
+                "momen" => $totalMomen,
+                "output" => $totalMomen / $totalArea,
             ]);
+
+
+            foreach ($areaData as $index => $conArea) {
+                [$left, $right, $upper, $lower] = explode('-', $index);
+                DB::table('condition_area')->insert([
+                    "condition_id" => $refId,
+                    "x_start" => ($left == $right) ? $upper : $lower,
+                    "y_start" => $left,
+                    "x_end" => ($left == $right) ? $lower : $upper,
+                    "y_end" => $right,
+                    "area" => $conArea,
+                    "momen" => $momenData[$index],
+                ]);
+            }
+
+
+            return "OK";
+        } catch (Exception $e) {
+            return $e;
         }
-
-
-        return "OK";
     }
 
     private function calculate($all)
