@@ -35,7 +35,7 @@ if (!function_exists('metalBaik')) {
     {
         if ($value >= 1500) return 0;
         if (750 < $value && $value < 1500) return (1500 - $value) / (1500 - 750);
-        if ($value >= 750) return 1;
+        if ($value <= 750) return 1;
         throw new Exception('Wrong metalBaik argument');
     }
 }
