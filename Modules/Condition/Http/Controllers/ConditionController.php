@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
+use Kreait\Firebase\Factory;
 
 class ConditionController extends AdminController
 {
@@ -454,5 +455,55 @@ class ConditionController extends AdminController
             ($result == 0) ? 400 : 200,
             ($result == 0) ? 400 : 200
         );
+    }
+
+    public function sync(Request $request)
+    {
+        try {
+            $factory = (new Factory)
+                ->withServiceAccount([
+                    "type" => "service_account",
+                    "project_id" => "akuasih2-bd0a3",
+                    "private_key_id" => "7b54585c282b1baf53c43cc694f5c2a3fdb18b02",
+                    "private_key" => "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCSgpdBRJ8XWLJW\nPnWnWmKTT4vK+Xk2L7Y69Kicwn/5BP/r0+DQVsBYuTOfn7i0RX9DNgYzFk5bEnXI\n3vWrY7E2+Gg4fo5BB1Nu9l+4BbdxFn2E70nXLEj+1MgA8Qdlvkq1yD80U9CkA5rb\n7HIVfhGa/bc4JtqXfSZ4GxoSkSY8ucbjbvPlgCMn2GxNCNEF99sDv8qw2qNs9H4u\nh8VzLA/umTgCWyP1upuaSDoi3XyFV7PdgXseymgNY4yiDKMhOdm/JxeVyfFKdRHI\nfuZPmqFBk+x9wOJYka6VVwaUtvDpBH0dsa8hQhtq3XK3uDn5JcuS5R0/+dpWY+OO\nhijwukOdAgMBAAECggEAA4ETHBEHmxfYgB6TUtLjG7Hh3pNz9jtS6PsUE1fFls+r\nTVkufd0tUZHwbad00/77icB/inZEnoIFBi5rAtPqF63+VCeWwHBr6vICnRSp7A8F\nJopQolBhWJL/S6J4MlNIVyu4c0hz65BYgl0X53Kx+hqKaNHpFYl9Q48mYv5Mw1QG\n7R1Y8OCHZGR/B12aAN4N3dKoVR5zmyn3UQMzBZkZvrFskiGR+Llq7fR9mlesPxp7\nPjFFHoqo2xGUtQHQ9BJvAuKDTYlKUam6pcinNmtGslv4R5AhVrlJi/6A8hY9STqm\nJfvgv6eWeGg4+2gtkT96a8xIvJH7OnoEOp3gt0dgUwKBgQDFtnpbZG9WsJgayACn\ny2K/SXm/BKV+QrrOWDvJdcaEMiQNgxXui0f7wOd24YIYS4/1zlixuIF3BY/PhEUt\nMwTL5wFy8iFzAI2Qs+7SvvBCJtXRqTjgPsmWRPRJpuV5eB1Bb6lKJm0UMOQiPjB9\n6QP8tkJCmn7r2KeDeIbT9oe0ewKBgQC9s8+YYsZyADYK02cmyL2njCHtVQgIZve1\nuFNT+CaH7pGKRhYTJxjwI/IGKTj/qKKxyDIgZZYLSZKcmg9TpvAJ9FC6byLsX0qB\nZ6Ro9+JJ7shz6hqaAn0BpgmTmEqWUCsxc2XGJfmCXly2CXflo66PXjHqGosNHroO\nKRaM41FoxwKBgQC8EjHgH/C9MOzvhNMCyjibp4QVDZFzQny6bjopEEyPUbbz138U\nVA9cToqfjjIXdEFz3B6Ip+8XTgYXq0W2kjJ817iMJAFniN4hCNgkRpb7BkAc2XEN\n9wwBUoRiT004N+b0aQhLTbQzIbLRVAECtJYjXSg4fQhAxu3J5Ou0U22RYwKBgCqH\ntqIeewkx/Ou+a6DpXoPCyhRwfOWNWDnYgm4P82uEVALhJa/Tkya7mFZDRbEjuJ4N\nGRfkTphnPUR40bjac3R33uV9ZyIBVy3d86FI+eXDcBN0x9QBfM8yz3DUstwySwzC\nJ24eM2tEBpsVUlkcslUYNC6dFtGxMttb4N9jU2wfAoGAVzeR26W46+SJhcYMr5Yc\nmSlSYpwo/hpCXupqLzK+9aReRzveLdUDNvj0hhVmWUQ1ZxMQO3ll77F+n9lqY4ul\nQKyWUnuMmKSs41kJDz5LPdHJVrc35pWziQfzoUlmdt9tqkG5Nkwx7tWzBIHD8ri2\nA85Lr+1ZeFfJlqZcg00PQrg=\n-----END PRIVATE KEY-----\n",
+                    "client_email" => "firebase-adminsdk-k4x4d@akuasih2-bd0a3.iam.gserviceaccount.com",
+                    "client_id" => "101460172811256485585",
+                    "auth_uri" => "https://accounts.google.com/o/oauth2/auth",
+                    "token_uri" => "https://oauth2.googleapis.com/token",
+                    "auth_provider_x509_cert_url" => "https://www.googleapis.com/oauth2/v1/certs",
+                    "client_x509_cert_url" => "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-k4x4d%40akuasih2-bd0a3.iam.gserviceaccount.com",
+                    "universe_domain" => "googleapis.com"
+                ])
+                ->withDatabaseUri('https://akuasih2-bd0a3-default-rtdb.asia-southeast1.firebasedatabase.app');
+            $database = $factory->createDatabase();
+
+            $node1 = $database->getReference('Node1');
+            $data1 = $node1->getValue();
+            $id1 = DB::table('sources')->where('name', 'Node1')->first()->id;
+            DB::table('condition')->insert([
+                'source_id' => $id1,
+                'ph' => $data1['pH'],
+                'metals' => $data1['EC'],
+                'oxygen' => $data1['DO'],
+                'particles' => $data1['TDS'],
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
+
+            $node2 = $database->getReference('Node2');
+            $data2 = $node2->getValue();
+            $id2 = DB::table('sources')->where('name', 'Node2')->first()->id;
+            DB::table('condition')->insert([
+                'source_id' => $id2,
+                'ph' => $data2['pH'],
+                'metals' => $data2['EC'],
+                'oxygen' => $data2['DO'],
+                'particles' => $data2['TDS'],
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
+
+            return "OK";
+        } catch (Exception $e) {
+            return $e;
+        }
     }
 }

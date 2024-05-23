@@ -23,6 +23,7 @@ Route::prefix('condition')->group(function () {
         Route::get('/histories', 'ConditionController@histories');
         Route::get('/calculate', 'ConditionController@preProcess');
         Route::get('/detail', 'ConditionController@detail');
+        Route::get('/sync', 'ConditionController@sync');
     });
 
     Route::prefix('/nodes')->group(function () {
