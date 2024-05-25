@@ -497,7 +497,7 @@ class ConditionController extends AdminController
             $node1 = $database->getReference('Node1');
             $data1 = $node1->getValue();
             $id1 = DB::table('sources')->where('name', 'Node1')->first()->id;
-            DB::table('condition')->insert([
+            $idHistory1 = DB::table('condition')->insertGetId([
                 'source_id' => $id1,
                 'ph' => $data1['pH'],
                 'metals' => $data1['EC'],
@@ -506,10 +506,13 @@ class ConditionController extends AdminController
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
 
+            $client1 = new Client();
+            $client1->request('GET', 'http://akuasih.my.id/condition/api/calculate?ref_id=' . $idHistory1);
+
             $node2 = $database->getReference('Node2');
             $data2 = $node2->getValue();
             $id2 = DB::table('sources')->where('name', 'Node2')->first()->id;
-            DB::table('condition')->insert([
+            $idHistory2 = DB::table('condition')->insertGetId([
                 'source_id' => $id2,
                 'ph' => $data2['pH'],
                 'metals' => $data2['EC'],
@@ -517,6 +520,9 @@ class ConditionController extends AdminController
                 'particles' => $data2['TDS'],
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
+
+            $client2 = new Client();
+            $client2->request('GET', 'http://akuasih.my.id/condition/api/calculate?ref_id=' . $idHistory2);
 
             return "OK";
         } catch (Exception $e) {
