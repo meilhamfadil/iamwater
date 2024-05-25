@@ -57,8 +57,9 @@ class ConditionController extends AdminController
         $this->content['type'] = $types;
         $this->content['graph'] = array_map(
             function ($data) use ($types) {
+                $time = date("Y-m-d H:i:s", strtotime($data->created_at . ' + 7 hours'));
                 return [
-                    "x" => $data->created_at,
+                    "x" => $time,
                     "y" => $data->$types,
                 ];
             },
@@ -83,12 +84,28 @@ class ConditionController extends AdminController
     {
         $refId = $request->query('ref_id');
         $date = $request->query('date');
-        return DB::table('condition')
+        $data = DB::table('condition')
             ->leftJoin("condition_process", 'condition.ref_id', 'condition_process.condition_id')
             ->where("source_id", $refId)
             ->whereRaw("DATE(condition.created_at) = '$date'")
             ->orderByDesc('condition.created_at')
-            ->get(['condition.*', 'condition_process.output']);
+            ->get(['condition.*', 'condition_process.output'])
+            ->toArray();
+
+        return array_map(function ($m) {
+            $time = date("Y-m-d H:i:s", strtotime($m->created_at . ' + 7 hours'));
+            return [
+                "source_id" => $m->source_id,
+                "ph" => $m->ph,
+                "metals" => $m->metals,
+                "oxygen" => $m->oxygen,
+                "particles" => $m->particles,
+                "created_at" => $time,
+                "updated_at" => $m->updated_at,
+                "ref_id" => $m->ref_id,
+                "output" => $m->output,
+            ];
+        }, $data);
     }
 
     public function detail(Request $request)
