@@ -114,7 +114,7 @@ if (!function_exists('tdsBuruk')) {
     function tdsBuruk($value)
     {
         if ($value <= 1750) return 0;
-        if (1750 < $value && $value < 2000);
+        if (1750 < $value && $value < 2000) return ($value - 1750) / (2000 - 1750);
         if ($value >= 2000) return 1;
         throw new Exception('Wrong tdsBuruk argument');
     }
