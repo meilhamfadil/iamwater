@@ -65,7 +65,7 @@ class ConditionController extends AdminController
             },
             DB::table('condition')
                 ->where("source_id", $node)
-                ->whereRaw("DATE(created_at) = '$date'")
+                ->whereRaw("DATE(created_at + interval 7 hour) = '$date'")
                 ->orderByDesc('created_at')
                 ->get()
                 ->toArray()
@@ -87,7 +87,7 @@ class ConditionController extends AdminController
         $data = DB::table('condition')
             ->leftJoin("condition_process", 'condition.ref_id', 'condition_process.condition_id')
             ->where("source_id", $refId)
-            ->whereRaw("DATE(condition.created_at) = '$date'")
+            ->whereRaw("DATE(condition.created_at + interval 7 hour) = '$date'")
             ->orderByDesc('condition.created_at')
             ->get(['condition.*', 'condition_process.output'])
             ->toArray();
