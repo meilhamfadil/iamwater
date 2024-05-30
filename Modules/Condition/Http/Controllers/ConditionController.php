@@ -81,8 +81,7 @@ class ConditionController extends AdminController
             ->get()
             ->first();
 
-        $this->content['type'] = "Quality of Service " . $nodes->name;
-        $this->content['graph'] = array_map(
+        $raw = array_map(
             function ($data) {
                 $time = date("Y-m-d H:i:s", strtotime($data->created_at . ' + 7 hours'));
                 return [
@@ -98,6 +97,29 @@ class ConditionController extends AdminController
                 ->get()
                 ->toArray()
         );
+
+        $this->content['type'] = "Quality of Service Values " . $nodes->name;
+        $this->content['typeGraph'] = "Quality of Service Categories " . $nodes->name;
+        $this->content['graph'] = $raw;
+        $this->content['categories'] = array_map(function ($item) {
+            $time = date("Y-m-d H:i:s", strtotime($item['x'] . ' + 7 hours'));
+            $output = "";
+            if ($item['y'] <= 30) {
+                $output = 1;
+            } else if ($item['y'] >= 42.5) {
+                $output = 2;
+            } else if ($item['y'] >= 60) {
+                $output = 3;
+            } else if ($item['y'] >= 80) {
+                $output = 4;
+            } else {
+                $output = 5;
+            }
+            return [
+                "x" => $time,
+                "y" => $output,
+            ];
+        }, $raw);
 
         return view('condition::result', $this->content);
     }
