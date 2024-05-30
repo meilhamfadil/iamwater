@@ -73,6 +73,35 @@ class ConditionController extends AdminController
         return view('condition::graph', $this->content);
     }
 
+    public function result(Request $request)
+    {
+        $node = $request->query('node');
+        $nodes = DB::table('sources')
+            ->where('id', $node)
+            ->get()
+            ->first();
+
+        $this->content['type'] = "Quality of Service " . $nodes->name;
+        $this->content['graph'] = array_map(
+            function ($data) {
+                $time = date("Y-m-d H:i:s", strtotime($data->created_at . ' + 7 hours'));
+                return [
+                    "x" => $time,
+                    "y" => $data->output,
+                ];
+            },
+            DB::table('condition_process')
+                ->select('condition.created_at', 'condition_process.output')
+                ->join('condition', 'condition.ref_id', 'condition_process.condition_id')
+                ->where('condition.source_id', $node)
+                ->orderByDesc('created_at')
+                ->get()
+                ->toArray()
+        );
+
+        return view('condition::result', $this->content);
+    }
+
     public function nodes()
     {
         return DB::table('sources')
